@@ -1,6 +1,7 @@
 #pragma once
+
 #include "Core.h"
-#include <stdio.h>
+#include "Log.h"
 
 namespace Onyx {
 

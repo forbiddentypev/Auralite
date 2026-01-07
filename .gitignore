@@ -1,6 +1,5 @@
 #Build Directories
 .vs/
-.vscode/
 bin/
 bin-int/
 
@@ -10,5 +9,3 @@ bin-int/
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
-
-vendor/

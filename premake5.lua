@@ -12,8 +12,8 @@ workspace "Auralite"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include Directories Relatives To Root Folder
---[[
-IncludeDir = {}
+--[[IncludeDir = {}
+IncludeDir["spdlog"] = "Auralite/vendor/spdlog/include"
 IncludeDir["GLFW"] = "Mofai/vendor/GLFW/include"
 IncludeDir["Glad"] = "Mofai/vendor/Glad/include"
 IncludeDir["ImGui"] = "Mofai/vendor/imgui"
@@ -35,8 +35,8 @@ project "Auralite"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	--[[pchheader "mfpch.h"
-	pchsource "Mofai/src/mfpch.cpp"]]
+	pchheader "arpch.h"
+	pchsource "Auralite/src/arpch.cpp"
 
 
     files
@@ -49,9 +49,10 @@ project "Auralite"
 	{
 		"%{prj.name}/src",
         "%{prj.name}/src/Auralite/src",
-		"%{prj.name}/src/Auralite/include"
-		
-		--[["%{prj.name}/vendor/spdlog/include",
+		"%{prj.name}/src/Auralite/include",
+		--"{IncludeDir}.spdlog"
+		"%{prj.name}/vendor/spdlog/include"
+		--[[
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}"]]
@@ -121,8 +122,8 @@ project "Sandbox"
 
 	includedirs
 	{
-		"Auralite/src"
-		--"Mofai/vendor/spdlog/include"
+		"Auralite/src",
+		"Auralite/vendor/spdlog/include"
 	}
 
 	links

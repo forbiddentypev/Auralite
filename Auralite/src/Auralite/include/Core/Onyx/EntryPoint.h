@@ -7,7 +7,9 @@ using namespace Onyx;
 
 int main(int argc, char** argv)
 {
-	printf("Onyx Engine Initialized on Windows!\n");
+	Onyx::Log::Init();
+	AR_CORE_WARN("Initialized Log!");
+    
     auto app = CreateApplication(); // forward declaration suffices
     app->Run();
     delete app;

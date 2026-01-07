@@ -1,3 +1,4 @@
+#include "arpch.h"
 #include "Core/Onyx/Application.h"
 
 namespace Onyx {

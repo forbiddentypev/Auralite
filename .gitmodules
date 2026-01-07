@@ -1,0 +1,3 @@
+[submodule "Auralite/vendor/spdlog"]
+	path = Auralite/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
