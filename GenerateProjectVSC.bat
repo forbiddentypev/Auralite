@@ -1,6 +1,6 @@
 @echo off
 REM === Step 1: go to project folder ===
-cd /d F:\dev\Auralite
+cd /d "%~dp0"
 
 REM === Step 2: generate VS solution (optional) ===
 vendor\bin\premake\premake5.exe vs2022
