@@ -2,10 +2,3 @@
 .vs/
 bin/
 bin-int/
-
-#Visual Studio
-*.user
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
