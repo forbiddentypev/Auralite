@@ -1,5 +1,5 @@
 #pragma once
 
 //Core
-#include "Auralite/include/Core/Onyx/EntryPoint.h"
-#include "Auralite/include/Core/Onyx/Application.h"
+#include "Auralite/include/Core/EntryPoint.h"
+#include "Auralite/include/Core/Application.h" 

@@ -1,6 +1,6 @@
 #include <Auralite.h>
 
-class Sandbox : public Onyx::Application
+class Sandbox : public Auralite::Application
 {
 	public:
 	Sandbox()
@@ -11,7 +11,7 @@ class Sandbox : public Onyx::Application
 	}
 };
 
-Onyx::Application* Onyx::CreateApplication()
+Auralite::Application* Auralite::CreateApplication()
 {
 	return new Sandbox();
 }

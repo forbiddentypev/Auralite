@@ -3,7 +3,7 @@
 #include "Core.h"
 #include "Log.h"
 
-namespace Onyx {
+namespace Auralite {
 
 	class AURA_API Application
 	{

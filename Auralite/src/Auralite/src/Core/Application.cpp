@@ -1,7 +1,7 @@
 #include "arpch.h"
-#include "Core/Onyx/Application.h"
+#include "Core/Application.h"
 
-namespace Onyx {
+namespace Auralite {
 
 	Application::Application()
 	{

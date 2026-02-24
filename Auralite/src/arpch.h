@@ -14,8 +14,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#ifdef MF_PLATFORM_WINDOWS
+#ifdef AR_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif
 
-#include "Auralite/include/Core/Onyx/Log.h"
+#include "Auralite/include/Core/Log.h"
