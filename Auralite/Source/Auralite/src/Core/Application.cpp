@@ -13,7 +13,7 @@ namespace Auralite {
 
 	void Application::Run()
 	{
-		while (m_Running);
+		while(m_Running);
 	}
 	
 }

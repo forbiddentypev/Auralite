@@ -8,7 +8,8 @@ set(SANDBOX_SOURCES
 add_executable(Sandbox ${SANDBOX_SOURCES})
 
 target_include_directories(Sandbox PRIVATE
-    ${CMAKE_SOURCE_DIR}/Auralite/src
+    ${CMAKE_SOURCE_DIR}/Auralite/Source
+    ${CMAKE_SOURCE_DIR}/Auralite/Source/Auralite/include
     ${CMAKE_SOURCE_DIR}/Auralite/vendor/spdlog/include
     # ${CMAKE_SOURCE_DIR}/Auralite/vendor
     # ${CMAKE_SOURCE_DIR}/Auralite/vendor/glm
