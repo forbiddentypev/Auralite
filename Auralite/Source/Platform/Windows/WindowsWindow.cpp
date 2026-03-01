@@ -21,12 +21,12 @@ namespace Auralite
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		MF_CORE_INFO("Create Window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+		AR_CORE_INFO("Create Window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
 		if (!s_GLFWInitialized) {
 			// TODO: on sistem shut down
 			int success = glfwInit();
-			MF_CORE_ASSERT(success, "Could Not Initilize GLFW");
+			AR_CORE_ASSERT(success, "Could Not Initilize GLFW");
 
 			s_GLFWInitialized = true;
 		}

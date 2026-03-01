@@ -46,11 +46,11 @@ target_include_directories(Auralite PUBLIC
 # add_subdirectory(vendor/imgui)
 
 # Link libraries
-# target_link_libraries(Auralite PUBLIC
-#     glfw
-#     glad
-#     imgui
-# )
+target_link_libraries(Auralite PUBLIC
+    glfw
+    # glad
+    # imgui
+)
 
 if (WIN32)
     target_link_libraries(Auralite PUBLIC opengl32)
@@ -59,7 +59,7 @@ if (WIN32)
         AR_PLATFORM_WINDOWS
         AR_BUILD_DLL
         _WINDLL
-        # GLFW_INCLUDE_NONE
+        GLFW_INCLUDE_NONE
         # _CRT_SECURE_NO_WARNINGS
     )
 endif()
