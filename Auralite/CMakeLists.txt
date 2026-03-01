@@ -3,18 +3,18 @@ project(Auralite)
 set(AURALITE_SOURCES
 # Core
     # headers
-    Source/Auralite/include/Auralite/Core.h
-    Source/Auralite/include/Auralite/EntryPoint.h
+    Source/Auralite/include/Core/Core.h
+    Source/Auralite/include/Core/EntryPoint.h
 
     # src
-    Source/Auralite/src/Log.cpp
-    Source/Auralite/src/Application.cpp
+    Source/Auralite/src/Core/Log.cpp
+    Source/Auralite/src/Core/Application.cpp
 
     # Event system
-    Source/Auralite/include/Auralite/Events/Event.h
-    Source/Auralite/include/Auralite/Events/ApplicationEvent.h
-    Source/Auralite/include/Auralite/Events/KeyEvent.h
-    Source/Auralite/include/Auralite/Events/MouseEvent.h
+    Source/Auralite/include/Core/Events/Event.h
+    Source/Auralite/include/Core/Events/ApplicationEvent.h
+    Source/Auralite/include/Core/Events/KeyEvent.h
+    Source/Auralite/include/Core/Events/MouseEvent.h
 
 # Platform
     # src
