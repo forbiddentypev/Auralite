@@ -24,6 +24,7 @@ namespace Auralite {
 #define AR_CORE_WARN(...)     ::Auralite::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define AR_CORE_ERROR(...)    ::Auralite::Log::GetCoreLogger()->error(__VA_ARGS__)
 #define AR_CORE_FATAL(...)    ::Auralite::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+
 //Client Log
 #define AR_TRACE(...)         ::Auralite::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define AR_INFO(...)          ::Auralite::Log::GetClientLogger()->info(__VA_ARGS__)

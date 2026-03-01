@@ -1,10 +1,24 @@
 project(Auralite)
 
 set(AURALITE_SOURCES
-    Source/Auralite/include/Core/Core.h
-    Source/Auralite/include/Core/EntryPoint.h
-    Source/Auralite/src/Core/Log.cpp
-    Source/Auralite/src/Core/Application.cpp   
+# Core
+    # headers
+    Source/Auralite/include/Auralite/Core.h
+    Source/Auralite/include/Auralite/EntryPoint.h
+
+    # src
+    Source/Auralite/src/Log.cpp
+    Source/Auralite/src/Application.cpp
+
+    # Event system
+    Source/Auralite/include/Auralite/Events/Event.h
+    Source/Auralite/include/Auralite/Events/ApplicationEvent.h
+    Source/Auralite/include/Auralite/Events/KeyEvent.h
+    Source/Auralite/include/Auralite/Events/MouseEvent.h
+
+# Platform
+    # src
+    Source/Platform/Windows/WindowsWindow.cpp
 )
 
 add_library(Auralite STATIC ${AURALITE_SOURCES})
@@ -13,10 +27,14 @@ target_precompile_headers(Auralite PUBLIC Source/arpch.h)
 
 # Include directories
 target_include_directories(Auralite PUBLIC
+    # Engine includes
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/Core
+
+    # Vendor includes
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
-    # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
     # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Glad/include
     # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui
     # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm

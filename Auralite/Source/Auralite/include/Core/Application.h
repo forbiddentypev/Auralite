@@ -2,6 +2,8 @@
 
 #include "Core.h"
 #include "Log.h"
+#include "Window.h"
+#include "Events/Event.h"
 
 namespace Auralite {
 
@@ -13,7 +15,8 @@ namespace Auralite {
 
 		void Run();
 
-	private: //var
+	private:
+		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 	};
 	// To be defined in CLIENT
