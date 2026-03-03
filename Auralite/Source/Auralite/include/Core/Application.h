@@ -3,7 +3,11 @@
 #include "Core.h"
 #include "Log.h"
 #include "Window.h"
+#include "LayerStack.h"
 #include "Events/Event.h"
+#include "Events/ApplicationEvent.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Auralite {
 
@@ -14,9 +18,17 @@ namespace Auralite {
 		virtual ~Application();
 
 		void Run();
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
+		void OnEvent(Event& e);
+
+		// Personal Function of coloring
+		void SetClearColorHexString(const std::string& hex);
 
 	private:
+	    bool OnWindowClose(WindowClosedEvent& e);
 		std::unique_ptr<Window> m_Window;
+		LayerStack m_LayerStack;
 		bool m_Running = true;
 	};
 	// To be defined in CLIENT

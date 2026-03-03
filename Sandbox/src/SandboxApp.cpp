@@ -1,16 +1,34 @@
 #include <Auralite.h>
 
-class Sandbox : public Auralite::Application
+class ExampleLayer : public Auralite::Layer
 {
-	public:
-	Sandbox()
+public:
+	ExampleLayer()
+		: Layer("Example")
 	{
 	}
-	~Sandbox()
+
+	void OnUpdate() override
 	{
+		AR_INFO("ExampleLayer::Update");
+	}
+
+	void OnEvent(Auralite::Event& event) override
+	{
+		AR_INFO("ExampleLayer::OnEvent");
 	}
 };
 
+class Sandbox : public Auralite::Application
+{
+public:
+	Sandbox()
+	{
+		PushLayer(new ExampleLayer());
+	}
+
+	~Sandbox() {}
+};
 Auralite::Application* Auralite::CreateApplication()
 {
 	return new Sandbox();

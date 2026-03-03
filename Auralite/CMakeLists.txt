@@ -1,23 +1,27 @@
 project(Auralite)
 
 set(AURALITE_SOURCES
+
 # Core
     # headers
     Source/Auralite/include/Core/Core.h
     Source/Auralite/include/Core/EntryPoint.h
+    Source/Auralite/include/Core/Layer.h
+    Source/Auralite/include/Core/LayerStack.h
 
     # src
     Source/Auralite/src/Core/Log.cpp
     Source/Auralite/src/Core/Application.cpp
+    Source/Auralite/src/Core/Layer.cpp
+    Source/Auralite/src/Core/LayerStack.cpp
 
-    # Event system
+# Event system
     Source/Auralite/include/Core/Events/Event.h
     Source/Auralite/include/Core/Events/ApplicationEvent.h
     Source/Auralite/include/Core/Events/KeyEvent.h
     Source/Auralite/include/Core/Events/MouseEvent.h
 
 # Platform
-    # src
     Source/Platform/Windows/WindowsWindow.cpp
 )
 
@@ -45,9 +49,13 @@ target_include_directories(Auralite PUBLIC
 # add_subdirectory(vendor/Glad)
 # add_subdirectory(vendor/imgui)
 
+# Find OpenGL
+find_package(OpenGL REQUIRED)
+
 # Link libraries
 target_link_libraries(Auralite PUBLIC
     glfw
+    OpenGL::GL
     # glad
     # imgui
 )
