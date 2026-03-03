@@ -15,32 +15,50 @@ set(AURALITE_SOURCES
     Source/Auralite/src/Core/Layer.cpp
     Source/Auralite/src/Core/LayerStack.cpp
 
-# Event system
-    Source/Auralite/include/Core/Events/Event.h
-    Source/Auralite/include/Core/Events/ApplicationEvent.h
-    Source/Auralite/include/Core/Events/KeyEvent.h
-    Source/Auralite/include/Core/Events/MouseEvent.h
+    # Event system
+    Source/Auralite/include/Events/Event.h
+    Source/Auralite/include/Events/ApplicationEvent.h
+    Source/Auralite/include/Events/KeyEvent.h
+    Source/Auralite/include/Events/MouseEvent.h
+
+# ImGui
+    Source/Auralite/src/ImGui/ImGuiLayer.cpp
 
 # Platform
     Source/Platform/Windows/WindowsWindow.cpp
+    Source/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
+
+# Vendors
+    #Glad
+    vendor/Glad/src/glad.c
+
+    #ImGui
+    vendor/imgui/imgui.cpp
+    vendor/imgui/imgui_draw.cpp
+    vendor/imgui/imgui_widgets.cpp
+    vendor/imgui/backends/imgui_impl_glfw.cpp
+    vendor/imgui/backends/imgui_impl_opengl3.cpp
 )
 
 add_library(Auralite STATIC ${AURALITE_SOURCES})
 
-target_precompile_headers(Auralite PUBLIC Source/arpch.h)
+target_precompile_headers(Auralite PRIVATE
+    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/Source/arpch.h>"
+)
 
 # Include directories
 target_include_directories(Auralite PUBLIC
     # Engine includes
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/ImGui
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/Core
 
-    # Vendor includes
+# Vendor includes
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
-    # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Glad/include
-    # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Glad/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui
     # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm
 )
 
@@ -56,21 +74,30 @@ find_package(OpenGL REQUIRED)
 target_link_libraries(Auralite PUBLIC
     glfw
     OpenGL::GL
-    # glad
-    # imgui
 )
 
 if (WIN32)
+
     target_link_libraries(Auralite PUBLIC opengl32)
 
     target_compile_definitions(Auralite PRIVATE
         AR_PLATFORM_WINDOWS
         AR_BUILD_DLL
         _WINDLL
-        GLFW_INCLUDE_NONE
-        # _CRT_SECURE_NO_WARNINGS
+        _CRT_SECURE_NO_WARNINGS
     )
+
+elseif(UNIX)
+
+    target_compile_definitions(Auralite PRIVATE
+        AR_PLATFORM_LINUX
+    )
+
 endif()
+
+target_compile_definitions(Auralite PRIVATE
+    GLFW_INCLUDE_NONE
+)
 
 # Config-specific definitions
 target_compile_definitions(Auralite PRIVATE

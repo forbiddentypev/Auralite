@@ -22,6 +22,9 @@ namespace Auralite {
 		void PushOverlay(Layer* layer);
 		void OnEvent(Event& e);
 
+		inline static Application & Get() { return *s_Instance; }
+		inline Window& GetWindow() { return *m_Window; }
+
 		// Personal Function of coloring
 		void SetClearColorHexString(const std::string& hex);
 
@@ -30,6 +33,10 @@ namespace Auralite {
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 		bool m_Running = true;
+
+
+	private:
+		static Application* s_Instance;
 	};
 	// To be defined in CLIENT
 	Application* CreateApplication();
