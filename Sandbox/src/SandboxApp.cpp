@@ -11,11 +11,20 @@ public:
 	void OnUpdate() override
 	{
 		AR_INFO("ExampleLayer::Update");
+
+		if(Auralite::Input::IsKeyPressed(AR_KEY_TAB))
+			AR_TRACE("Tab key is pressed!(poll)");
 	}
 
 	void OnEvent(Auralite::Event& event) override
 	{
-		AR_INFO("ExampleLayer::OnEvent");
+	if (event.GetEventType() == Auralite::EventType::KeyPressed)
+	{
+		Auralite::KeyPressedEvent& e = (Auralite::KeyPressedEvent&)event;
+		if (e.GetKeyCode() == AR_KEY_A)
+			AR_TRACE("A key is pressed!(event)");
+		AR_TRACE("{0}", (char)e.GetKeyCode());
+	}
 	}
 };
 

@@ -6,8 +6,9 @@ set(AURALITE_SOURCES
     # headers
     Source/Auralite/include/Core/Core.h
     Source/Auralite/include/Core/EntryPoint.h
-    Source/Auralite/include/Core/Layer.h
-    Source/Auralite/include/Core/LayerStack.h
+    Source/Auralite/include/Core/Input.h
+    Source/Auralite/include/Core/KeyCodes.h
+    Source/Auralite/include/Core/MouseButtonCodes.h
 
     # src
     Source/Auralite/src/Core/Log.cpp
@@ -26,6 +27,7 @@ set(AURALITE_SOURCES
 
 # Platform
     Source/Platform/Windows/WindowsWindow.cpp
+    Source/Platform/Windows/WindowsInput.cpp
     Source/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
 
 # Vendors

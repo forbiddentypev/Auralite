@@ -4,7 +4,7 @@
 #include "Core.h"
 #include "Events/Event.h"
 
-namespace Auralite 
+namespace Auralite
 {
 	struct WindowProps {
 		std::string Title;
@@ -12,12 +12,12 @@ namespace Auralite
 		unsigned int Height;
 
 		WindowProps(const std::string& title = "Auralite Engine",
-			unsigned int width = 1280, 
+			unsigned int width = 1280,
 			unsigned int height = 720)
 		: Title(title), Width(width), Height(height) {}
 	};
 
-	// Desctop System Windows 
+	// Desctop System Windows
 	class AURA_API Window {
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
@@ -32,6 +32,8 @@ namespace Auralite
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync (bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+
+		virtual void* GetNativeWindow() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

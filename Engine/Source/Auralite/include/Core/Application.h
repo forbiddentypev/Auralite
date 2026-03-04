@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "Log.h"
+#include "Input.h"
 #include "Window.h"
 #include "LayerStack.h"
 #include "Events/Event.h"
