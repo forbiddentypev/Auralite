@@ -12,11 +12,10 @@ set(AURALITE_SOURCES
 
     # src
     Source/Auralite/src/Core/Log.cpp
-    Source/Auralite/src/Core/Application.cpp
     Source/Auralite/src/Core/Layer.cpp
     Source/Auralite/src/Core/LayerStack.cpp
 
-    # Event system
+# Event system
     Source/Auralite/include/Events/Event.h
     Source/Auralite/include/Events/ApplicationEvent.h
     Source/Auralite/include/Events/KeyEvent.h
@@ -25,10 +24,16 @@ set(AURALITE_SOURCES
 # ImGui
     Source/Auralite/src/ImGui/ImGuiLayer.cpp
 
+# Renderer
+    Source/Auralite/src/Renderer/Buffer.cpp
+    Source/Auralite/src/Renderer/Renderer.cpp
+    Source/Auralite/src/Renderer/Shader.cpp
+
 # Platform
     Source/Platform/Windows/WindowsWindow.cpp
     Source/Platform/Windows/WindowsInput.cpp
-    Source/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
+    Source/Platform/OpenGL/OpenGLBuffer.cpp
+    Source/Platform/OpenGL/OpenGlContext.cpp
 
 # Vendors
     #Glad
@@ -42,6 +47,9 @@ set(AURALITE_SOURCES
     vendor/imgui/imgui_demo.cpp
     vendor/imgui/backends/imgui_impl_glfw.cpp
     vendor/imgui/backends/imgui_impl_opengl3.cpp
+
+##########EntryPoint#############
+    Source/Auralite/src/Core/Application.cpp
 )
 
 add_library(Auralite STATIC ${AURALITE_SOURCES})
@@ -55,15 +63,17 @@ target_include_directories(Auralite PUBLIC
     # Engine includes
     ${CMAKE_CURRENT_SOURCE_DIR}/Source
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/ImGui
     ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/Core
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/ImGui
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/Events
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source/Auralite/include/Renderer
 
 # Vendor includes
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/GLFW/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Glad/include
     ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui
-    # ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm
 )
 
 # Vendor subprojects

@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "Core.h"
 #include "Events/Event.h"
+#include "Renderer/GraphicsContext.h"
 
 namespace Auralite
 {
@@ -36,6 +37,8 @@ namespace Auralite
 		virtual void* GetNativeWindow() const = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
+
+		virtual GraphicsContext* GetContext() const = 0;
 	};
 
 }

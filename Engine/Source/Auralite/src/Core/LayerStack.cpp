@@ -20,7 +20,7 @@ namespace Auralite {
 		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
 	}
 
-	void LayerStack::PushOvrerlay(Layer* overlay)
+	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		m_Layers.emplace_back(overlay);
 	}

@@ -39,13 +39,14 @@ namespace Auralite
 		if (!s_GLFWInitialized) {
 			// TODO: on sistem shut down
 			int success = glfwInit();
-			glfwSetErrorCallback(GLFWErrorCallback)
+			glfwSetErrorCallback(GLFWErrorCallback);
 			AR_CORE_ASSERT(success, "Could Not Initilize GLFW");
 
 			s_GLFWInitialized = true;
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		AR_CORE_ASSERT(m_Window, "Failed to create GLFW window!");
 		glfwMakeContextCurrent(m_Window);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		AR_CORE_ASSERT(status, "Failed to initialize Glad!");
@@ -167,6 +168,11 @@ namespace Auralite
 	bool WindowsWindow::IsVSync() const {
 		return m_Data.VSync;
 	}
+
+	GraphicsContext* WindowsWindow::GetContext() const
+    {
+        return m_Context.get();
+    }
 
 
 }

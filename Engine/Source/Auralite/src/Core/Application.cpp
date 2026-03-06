@@ -1,7 +1,10 @@
 #include "arpch.h"
 #include "Core/Application.h"
+
 #include "Core/Log.h"
-#include "Events/ApplicationEvent.h"
+#include "Core/Input.h"
+
+#include "Renderer/Renderer.h"
 
 #include <glad/glad.h>
 
@@ -11,16 +14,165 @@ namespace Auralite {
 
     Application* Application::s_Instance = nullptr;
 
+    Application::Application()
+    {
+        AR_CORE_ASSERT(!s_Instance, "Application already exists!");
+
+        s_Instance = this;
+
+        m_Window.reset(Window::Create());
+
+        m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+        AR_CORE_INFO("Application started successfully!");
+    }
+
+    Application::~Application()
+    {
+    }
+
+    void Application::PushLayer(Layer* layer)
+    {
+        m_LayerStack.PushLayer(layer);
+        layer->OnAttach();
+    }
+
+    void Application::PushOverlay(Layer* layer)
+    {
+        m_LayerStack.PushOverlay(layer);
+        layer->OnAttach();
+    }
+
+    void Application::OnEvent(Event& e)
+    {
+        EventDispatcher dispatcher(e);
+        dispatcher.Dispatcher<WindowClosedEvent>(BIND_EVENT_FN(OnWindowClose));
+
+        AR_CORE_TRACE("{0}", e);
+
+        for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+        {
+            (*--it)->OnEvent(e);
+
+            if (e.IsHandled())
+                break;
+        }
+    }
+
+    void Application::Run()
+    {
+        while (m_Running)
+        {
+            Renderer::SetClearColorHexString("#0c0c0c");
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            for (Layer* layer : m_LayerStack)
+                layer->OnUpdate();
+
+            m_ImGuiLayer->Begin();
+
+            for (Layer* layer : m_LayerStack)
+                layer->OnImGuiRender();
+
+            m_ImGuiLayer->End();
+
+            m_Window->OnUpdate();
+        }
+    }
+
+    bool Application::OnWindowClose(WindowClosedEvent& e)
+    {
+        m_Running = false;
+        return true;
+    }
+
+}
+
+
+
+
+/*
+#include "arpch.h"
+#include "Core/Application.h"
+
+#include "Core/Log.h"
+#include "Core/Input.h"
+
+#include "Renderer/Renderer.h"
+
+#include <glad/glad.h>
+
+namespace Auralite {
+
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
-        AR_CORE_ASSERT(!s_Instance, "Application already exists!");
+		AR_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
 		m_Window = std::unique_ptr <Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
+
+		glGenVertexArrays(1, &m_VertexArray);
+		glBindVertexArray(m_VertexArray);
+
+		float vertices[3 * 3] = {
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.0f,  0.5f, 0.0f
+		};
+
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+
+		uint32_t indices[3] = { 0, 1, 2 };
+		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+		std::string vertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+			}
+		)";
+
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
-	Application::~Application() {}
+
+
+	Application::~Application()
+	{
+	}
 
 	void Application::PushLayer(Layer* layer)
 	{
@@ -30,35 +182,9 @@ namespace Auralite {
 
 	void Application::PushOverlay(Layer* layer)
 	{
-		m_LayerStack.PushOvrerlay(layer);
+		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
 	}
-
-	// To set Colors out of Hex
-	void Application::SetClearColorHexString(const std::string& hex)
-	{
-	    std::string h = hex;
-
-            if (h[0] == '#')
-                h = h.substr(1);
-
-            if (h.length() != 6)
-                return;
-
-            auto hexToInt = [](char c)
-            {
-                if (c >= '0' && c <= '9') return c - '0';
-                if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-                if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-                return 0;
-            };
-
-            int r = hexToInt(h[0]) * 16 + hexToInt(h[1]);
-            int g = hexToInt(h[2]) * 16 + hexToInt(h[3]);
-            int b = hexToInt(h[4]) * 16 + hexToInt(h[5]);
-
-            glClearColor(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-        }
 
 	void Application::OnEvent(Event& e)
 	{
@@ -73,18 +199,26 @@ namespace Auralite {
 			if (e.IsHandled())
 				break;
 		}
-
 	}
 
 	void Application::Run()
 	{
 		while (m_Running)
 		{
-			SetClearColorHexString("#0c0c0c"); //#0c0c0c Dark gray Color
+		    Auralite::Renderer::SetClearColorHexString("#0c0c0c");
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			m_Shader->Bind();
+			glBindVertexArray(m_VertexArray);
+			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
 		}
@@ -96,4 +230,5 @@ namespace Auralite {
 		return true;
 	}
 
-} // namespace Auralite
+}
+*/

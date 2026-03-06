@@ -19,11 +19,16 @@ namespace Auralite
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
+		GraphicsContext* GetContext() const override;
+
 		inline virtual void* GetNativeWindow() const override { return m_Window; }
+
+		std::unique_ptr<GraphicsContext> m_Context;
 
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
+
 	private:
 		GLFWwindow* m_Window;
 

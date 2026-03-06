@@ -11,7 +11,7 @@ namespace Auralite {
 		~LayerStack();
 
 		void PushLayer(Layer* layer);
-		void PushOvrerlay(Layer* overlay);
+		void PushOverlay(Layer* overlay);
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
